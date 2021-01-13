@@ -141,7 +141,7 @@ impl Gsi
                     "{} - GSI\ninformation:\n\n<code>{}</code>\n\nAB:{}\naonly:{}"
                     , rom_name.as_str(), build_info.as_str(), ab.as_str(), aonly.as_str()).as_str());
             let buttons = vec![InlineKeyboardButton::url(
-                "ErfanGSIs-VelanGSIs".to_string(), "https://github.com/erfanoabdi/ErfanGSIs".to_string()),
+                "ErfanGSIs".to_string(), "https://github.com/erfanoabdi/ErfanGSIs".to_string()),
                                InlineKeyboardButton::url("Rust-5X".to_string(), "https://github.com/aktham3210/Rust-5X".to_string())
             ];
             let markup = InlineKeyboardMarkup::default()
