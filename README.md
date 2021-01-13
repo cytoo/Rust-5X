@@ -1,4 +1,4 @@
-#Rust-5X
+# Rust-5X
 ## a multi function telegram bot made in rust
 
 by [cytolytic](https://t.me/cytolytic)
