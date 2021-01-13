@@ -9,6 +9,7 @@ edition = "2018"
 [dependencies]
 futures = "0.3.8"
 stopwatch = "0.0.7"
+serde = { version="=1.0.118", features = ["derive"] }
 teloxide = "0.3"
 teloxide-macros = "0.3"
 log = "0.4.8"
