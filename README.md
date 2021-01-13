@@ -3,9 +3,9 @@
 
 by [cytolytic](https://t.me/cytolytic)
 
-###what commands does it have?
+### what commands does it have?
 
-####it includes but is not limited to:
+#### it includes but is not limited to:
 
 ```rust
 enum Cmds
@@ -53,4 +53,4 @@ now follow thees setps <br>
 `cd Rust-5X`<br><br>
 `cargo run`<br>
 
-#####and then you're good to go!. hope you enjoy it :)
+##### and then you're good to go!. hope you enjoy it :)
