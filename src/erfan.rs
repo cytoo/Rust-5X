@@ -36,6 +36,7 @@ impl Gsi
                 .output()
                 .expect("bruh");
         }
+        let channel_id = std::env::var("CHANNEL").expect("channel id not set");
         let owner_id = env::var("OWNER_ID").expect("OWNER_ID has not been set!");
         let mut logs = String::new();
         let mut done:bool = false;
@@ -141,12 +142,12 @@ impl Gsi
                     "{} - GSI\ninformation:\n\n<code>{}</code>\n\nAB:{}\naonly:{}"
                     , rom_name.as_str(), build_info.as_str(), ab.as_str(), aonly.as_str()).as_str());
             let buttons = vec![InlineKeyboardButton::url(
-                "ErfanGSIs".to_string(), "https://github.com/erfanoabdi/ErfanGSIs".to_string()),
+                "ErfanGSIs-VelanGSIs".to_string(), "https://github.com/erfanoabdi/ErfanGSIs".to_string()),
                                InlineKeyboardButton::url("Rust-5X".to_string(), "https://github.com/aktham3210/Rust-5X".to_string())
             ];
             let markup = InlineKeyboardMarkup::default()
                 .append_row(buttons);
-            bot.answer(reply).parse_mode(ParseMode::HTML).disable_web_page_preview(true).reply_markup(markup).send().await?;
+            bot.bot.send_message(bot.update.chat.id,reply).parse_mode(ParseMode::HTML).disable_web_page_preview(true).reply_markup(markup).send().await?;
             bot.answer("completed").send().await?;
         } else {
             bot.answer("gsi failed").send().await?;
