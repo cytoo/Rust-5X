@@ -147,7 +147,7 @@ impl Gsi
             ];
             let markup = InlineKeyboardMarkup::default()
                 .append_row(buttons);
-            bot.bot.send_message(bot.update.chat.id,reply).parse_mode(ParseMode::HTML).disable_web_page_preview(true).reply_markup(markup).send().await?;
+            bot.bot.send_message(channel_id,reply).parse_mode(ParseMode::HTML).disable_web_page_preview(true).reply_markup(markup).send().await?;
             bot.answer("completed").send().await?;
         } else {
             bot.answer("gsi failed").send().await?;
