@@ -54,7 +54,12 @@ async fn do_cmds(cx:Cx,cmd:Cmds) -> ResponseResult<()>
         Cmds::Info => get_user_info(&cx).await?,
         Cmds::GSI =>
             {
-                let val = cx.update.text().unwrap().substring(5,cx.update.text().unwrap().len()).find(" ").unwrap();
+                let val = match cx.update.text().unwrap().substring(5,cx.update.text().unwrap().len()).find(" ")
+                {
+                    Some(x) => x,
+                    None => 0u8
+                };
+                if val == 0u8  {cx.answer("please provide a gsi link and a rom name");return Ok(());}
                 let e = cx.update.text().unwrap().replace("/gsi","");
                 let link = e.substring(0,val + 1);
                 let mut rom_name:String = String::new();
