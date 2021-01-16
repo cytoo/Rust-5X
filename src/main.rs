@@ -59,7 +59,8 @@ async fn do_cmds(cx:Cx,cmd:Cmds) -> ResponseResult<()>
                 let link = e.substring(0,val + 1);
                 let mut rom_name:String = String::new();
                 rom_name.push_str(e.substring(val + 1,e.len()));
-                let gsi = Gsi::new(rom_name.to_string(),link.to_string());
+                let args = cx.update.text().unwrap().substring(cx.update.text().unwrap().find(rom_name).unwrap() + rom_name.len(),69420);
+                let gsi = Gsi::new(rom_name.to_string(),link.to_string(),args.to_string());
                 gsi.make(&cx).await?;
             }
     }
