@@ -13,17 +13,19 @@ type Cx = UpdateWithCx<Message>;
 pub struct Gsi
 {
     name:String,
-    link:String
+    link:String,
+    args:String
 }
 
 impl Gsi
 {
-    pub fn new(name:String,link:String) -> Self
+    pub fn new(name:String,link:String,args:String) -> Self
     {
         Gsi
         {
             name:name,
-            link:link
+            link:link,
+            args:args
         }
     }
     pub async fn make(&self,bot:&Cx) -> ResponseResult<()>
@@ -35,6 +37,11 @@ impl Gsi
                 .arg("kill -TERM -- -$(ps ax | grep url2GSI.sh | grep -v grep | awk '{print $1;}')") // kanged from bot3+t
                 .output()
                 .expect("bruh");
+        }
+        if self.link.is_empty() || self.name.is_empty()
+        {
+            bot.answer("usage:\n/gsi <link> <rom_name>").send().await?;
+            return Ok(());
         }
         let channel_id = std::env::var("CHANNEL").expect("channel id not set");
         let owner_id = env::var("OWNER_ID").expect("OWNER_ID has not been set!");
@@ -54,7 +61,7 @@ impl Gsi
         // };
         let rom_name = &self.name;
         let rom_link = &self.link;
-        let cmd = format!("cd ErfanGSIs;sudo ./url2GSI.sh {0}{1};cd ../src;python3 zip_upload.py {1}", rom_link, rom_name);
+        let cmd = format!("cd ErfanGSIs;sudo ./url2GSI.sh {0}{1} {2};cd ../src;python3 zip_upload.py {1}", rom_link, rom_name,self.args);
         let out = Command::new("sh")
             .arg("-c")
             .arg(cmd.as_str())
@@ -82,7 +89,11 @@ impl Gsi
                     &logs.push_str("<code>\n");
                     &logs.push_str(line.as_str());
                     &logs.push_str("</code>\n");
-
+                    if line.contains("zip error")
+                    {
+                        bot.answer("no output found! gsi is probably not treble supported!").send().await?;
+                        return Ok(());
+                    }
                     bot.bot.edit_message_text
                     (
                         ChatOrInlineMessage::Chat {
@@ -92,7 +103,7 @@ impl Gsi
                         &logs
                     ).parse_mode(ParseMode::HTML).send().await?;
                 }
-                log::info!("{}", line);
+                println!("{}",&logs);
             }
             if line.contains("GSI done on:")
             {
@@ -142,7 +153,7 @@ impl Gsi
                     "{} - GSI\ninformation:\n\n<code>{}</code>\n\nAB:{}\naonly:{}"
                     , rom_name.as_str(), build_info.as_str(), ab.as_str(), aonly.as_str()).as_str());
             let buttons = vec![InlineKeyboardButton::url(
-                "ErfanGSIs-VelanGSIs".to_string(), "https://github.com/erfanoabdi/ErfanGSIs".to_string()),
+                "ErfanGSIs-VelanGSIs".to_string(), "https://github.com/Velosh/ErfanGSIs-VelanGSIs".to_string()),
                                InlineKeyboardButton::url("Rust-5X".to_string(), "https://github.com/aktham3210/Rust-5X".to_string())
             ];
             let markup = InlineKeyboardMarkup::default()
