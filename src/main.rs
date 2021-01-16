@@ -59,7 +59,7 @@ async fn do_cmds(cx:Cx,cmd:Cmds) -> ResponseResult<()>
                     Some(x) => x,
                     None => 0u8
                 };
-                if val == 0u8  {cx.answer("please provide a gsi link and a rom name");return Ok(());}
+                if val == 0u8  {cx.answer("please provide a gsi link and a rom name").send.await?;return Ok(());}
                 let e = cx.update.text().unwrap().replace("/gsi","");
                 let link = e.substring(0,val + 1);
                 let mut rom_name:String = String::new();
